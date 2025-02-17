@@ -4,7 +4,7 @@ const riddles = [
     { question: "I sound sweet but leave you burning all night. What am I?", answer: "carolina reaper" }
 ];
 
-let currentQuestion = 0;
+let currentQuestion = localStorage.getItem("currentQuestion") ? parseInt(localStorage.getItem("currentQuestion")) : 0;
 
 function startGame() {
     document.getElementById("challenge").style.display = "block";
@@ -12,7 +12,12 @@ function startGame() {
 }
 
 function showQuestion() {
-    document.getElementById("question").innerText = riddles[currentQuestion].question;
+    if (currentQuestion < riddles.length) {
+        document.getElementById("question").innerText = riddles[currentQuestion].question;
+    } else {
+        document.getElementById("result").innerHTML = "🎉 Congratulations! You've won the Hot Sauce Inferno Challenge! 🔥";
+        localStorage.removeItem("currentQuestion"); // Reset progress after winning
+    }
 }
 
 function checkAnswer() {
@@ -20,12 +25,17 @@ function checkAnswer() {
     if (userAnswer === riddles[currentQuestion].answer) {
         document.getElementById("result").innerText = "✅ Correct! Moving to next level...";
         currentQuestion++;
-        if (currentQuestion < riddles.length) {
-            setTimeout(showQuestion, 1500);
-        } else {
-            document.getElementById("result").innerHTML = "🎉 Congratulations! You've won the Hot Sauce Inferno Challenge! 🔥";
-        }
+        localStorage.setItem("currentQuestion", currentQuestion); // Save progress
+        setTimeout(showQuestion, 1500);
     } else {
         document.getElementById("result").innerText = "❌ Wrong! Try again.";
     }
 }
+
+// Auto-load progress on page load
+document.addEventListener("DOMContentLoaded", () => {
+    if (currentQuestion > 0) {
+        document.getElementById("challenge").style.display = "block";
+        showQuestion();
+    }
+});
