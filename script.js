@@ -48,7 +48,6 @@ document.addEventListener("DOMContentLoaded", function () {
             localStorage.removeItem("startTime");
             localStorage.removeItem("currentScoville");
             clearInterval(countdownInterval);
-            triggerConfetti();
         }
     }
 
@@ -116,12 +115,6 @@ document.addEventListener("DOMContentLoaded", function () {
         resultElement.innerText = "Game Over!";
     }
 
-    function triggerConfetti() {
-        confetti({
-            particleCount: 200,
-            spread: 70,
-            origin: { y: 0.6 }
-        });
 
     if (localStorage.getItem("startTime")) {
         startButton.style.display = "none";
@@ -137,5 +130,4 @@ document.addEventListener("DOMContentLoaded", function () {
     // **Fix: Attach functions to window so HTML can access them**
     window.startGame = startGame;
     window.checkAnswer = checkAnswer;
-    window.triggerConfetti = triggerConfetti;
 });
