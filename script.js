@@ -9,9 +9,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const resultElement = document.getElementById("result");
 
     const riddles = [
-        { question: "I start out green but turn to red, some say I make your face turn red. What am I?", answer: "jalapeno", scoville: 8000 },
-        { question: "I’m named after a ghost, but I’m not dead. I burn your mouth and make you sweat. What am I?", answer: "ghost pepper", scoville: 1000000 },
-        { question: "I sound sweet but leave you burning all night. What am I?", answer: "carolina reaper", scoville: 2200000 }
+        { question: "Before the Aztecs, I stood tall.\nAn ancient city, known to all.\nBut you don't need to make a trip,\nYou can find me seated on a table's tip.", answer: "cholula", scoville: 1000 },
+        { question: "The brick road\n+\nPeter: "What's the word?"", answer: "yellowbird", scoville: 15580 },
+        { question: "🔥1111🔥", answer: "los calientes", scoville: 49000 }
     ];
 
     let currentQuestion = localStorage.getItem("currentQuestion") ? parseInt(localStorage.getItem("currentQuestion")) : 0;
