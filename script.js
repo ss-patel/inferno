@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
         { question: "Before the Aztecs, I stood tall.\nAn ancient city, known to all.\nBut you don't need to make a trip,\nYou can find me seated on a table's tip.", answer: "cholula", scoville: 1000 },
         { question: "The brick road\n+\nPeter: _____ is the word!", answer: "yellowbird", scoville: 15580 },
         { question: "🔥1111🔥", answer: "los calientes", scoville: 49000 },
-        { question: "Hmmm, so many right, yet the meter stands still,/nOnly one name can break its will./nThe heat she brings, none can deny,/nThe spiciest of all—who am I?"", answer: "shivani", scoville: 2200000 }
+        { question: "Hmmm, so many right, yet the meter stands still,/nOnly one name can break its will./nThe heat she brings, none can deny,/nThe spiciest of all—who am I?", answer: "shivani", scoville: 2200000 }
     ];
 
     let currentQuestion = localStorage.getItem("currentQuestion") ? parseInt(localStorage.getItem("currentQuestion")) : 0;
