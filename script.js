@@ -4,54 +4,39 @@ const riddles = [
     { question: "I sound sweet but leave you burning all night. What am I?", answer: "carolina reaper", scoville: 2200000 }
 ];
 
-// 🔥 Set a Fixed Deadline (Adjust as needed)
-const deadline = new Date("February 20, 2025 23:59:59").getTime();
-localStorage.setItem("challengeDeadline", deadline);
-
 let currentQuestion = localStorage.getItem("currentQuestion") ? parseInt(localStorage.getItem("currentQuestion")) : 0;
 let currentScoville = localStorage.getItem("currentScoville") ? parseInt(localStorage.getItem("currentScoville")) : 0;
+let startTime = localStorage.getItem("startTime") ? parseInt(localStorage.getItem("startTime")) : null;
+let countdownInterval;
 
-// Countdown Timer
-function updateCountdown() {
-    let now = new Date().getTime();
-    let timeLeft = deadline - now;
+const weekInMilliseconds = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
 
-    if (timeLeft <= 0) {
-        document.getElementById("countdown").innerHTML = "🔥 Time’s Up! You Lost the Challenge! 🔥";
-        document.getElementById("challenge").style.display = "none";
-        return;
-    }
-
-    let days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-    let hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    let minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-    let seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-    document.getElementById("countdown").innerHTML = `⏳ Time Left: ${days}d ${hours}h ${minutes}m ${seconds}s`;
-}
-
-// Start Countdown on Page Load
-setInterval(updateCountdown, 1000);
-
-// Start Game
 function startGame() {
     document.getElementById("challenge").style.display = "block";
     showQuestion();
     updateScovilleMeter();
+
+    // Start timer if it's not already set
+    if (!startTime) {
+        startTime = new Date().getTime();
+        localStorage.setItem("startTime", startTime);
+    }
+
+    startCountdown();
 }
 
-// Show Question
 function showQuestion() {
     if (currentQuestion < riddles.length) {
         document.getElementById("question").innerText = riddles[currentQuestion].question;
     } else {
-        document.getElementById("result").innerHTML = "🎉 Congratulations! You've reached maximum heat! 🔥";
+        document.getElementById("result").innerHTML = "🎉 Congratulations! You've conquered the heat! 🔥";
         localStorage.removeItem("currentQuestion");
         localStorage.removeItem("currentScoville");
+        localStorage.removeItem("startTime");
+        clearInterval(countdownInterval); // Stop the timer
     }
 }
 
-// Check Answer
 function checkAnswer() {
     let userAnswer = document.getElementById("answer").value.trim().toLowerCase();
     if (userAnswer === riddles[currentQuestion].answer) {
@@ -68,7 +53,6 @@ function checkAnswer() {
     }
 }
 
-// Update Scoville Meter
 function updateScovilleMeter() {
     let maxScoville = 2200000;
     let meterPercentage = (currentScoville / maxScoville) * 100;
@@ -87,21 +71,46 @@ function addFireEffect() {
     }, 1000);
 }
 
-// Reset Progress
-function resetProgress() {
-    localStorage.removeItem("currentQuestion");
-    localStorage.removeItem("currentScoville");
-    currentQuestion = 0;
-    currentScoville = 0;
-    updateScovilleMeter();
-    showQuestion();
+// 🕒 Countdown Timer Logic
+function startCountdown() {
+    clearInterval(countdownInterval);
+    countdownInterval = setInterval(() => {
+        let now = new Date().getTime();
+        let timeElapsed = now - startTime;
+        let timeLeft = weekInMilliseconds - timeElapsed;
+
+        if (timeLeft <= 0) {
+            clearInterval(countdownInterval);
+            gameOver();
+        } else {
+            updateCountdownDisplay(timeLeft);
+        }
+    }, 1000);
+}
+
+function updateCountdownDisplay(timeLeft) {
+    let days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+    let hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    let minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+    let seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+    document.getElementById("countdown").innerText = `⏳ Time Left: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+}
+
+// 🛑 Game Over when Time Runs Out
+function gameOver() {
+    document.getElementById("question").innerText = "🔥 Time's up! You couldn't handle the heat! 🔥";
+    document.getElementById("answer").disabled = true;
+    document.querySelector(".submit-btn").disabled = true;
 }
 
 // Auto-load progress on page load
 document.addEventListener("DOMContentLoaded", () => {
-    if (currentQuestion > 0) {
+    if (localStorage.getItem("startTime")) {
+        startTime = parseInt(localStorage.getItem("startTime"));
         document.getElementById("challenge").style.display = "block";
         showQuestion();
+        startCountdown();
     }
     updateScovilleMeter();
 });
