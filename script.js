@@ -10,8 +10,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const riddles = [
         { question: "Before the Aztecs, I stood tall.\nAn ancient city, known to all.\nBut you don't need to make a trip,\nYou can find me seated on a table's tip.", answer: "cholula", scoville: 1000 },
-        { question: "The brick road\n+\nPeter: _____ is the word?", answer: "yellowbird", scoville: 15580 },
-        { question: "🔥1111🔥", answer: "los calientes", scoville: 49000 }
+        { question: "The brick road\n+\nPeter: _____ is the word!", answer: "yellowbird", scoville: 15580 },
+        { question: "🔥1111🔥", answer: "los calientes", scoville: 49000 },
+        { question: "Hmmm, so many right, yet the meter stands still,/nOnly one name can break its will./nThe heat she brings, none can deny,/nThe spiciest of all—who am I?"", answer: "shivani", scoville: 2200000 }
     ];
 
     let currentQuestion = localStorage.getItem("currentQuestion") ? parseInt(localStorage.getItem("currentQuestion")) : 0;
@@ -42,11 +43,12 @@ document.addEventListener("DOMContentLoaded", function () {
             resultElement.innerText = "";
             answerInput.value = "";
         } else {
-            resultElement.innerHTML = "🎉 Congratulations! You've conquered the heat! 🔥";
+            resultElement.innerHTML = "🎉 Congratulations! You are the spiciest of them all! Text: 'x12x44 🔥' to claim your prize!";
             localStorage.removeItem("currentQuestion");
             localStorage.removeItem("startTime");
             localStorage.removeItem("currentScoville");
             clearInterval(countdownInterval);
+            triggerConfetti();
         }
     }
 
@@ -114,6 +116,13 @@ document.addEventListener("DOMContentLoaded", function () {
         resultElement.innerText = "Game Over!";
     }
 
+    function triggerConfetti() {
+        confetti({
+            particleCount: 200,
+            spread: 70,
+            origin: { y: 0.6 }
+        });
+
     if (localStorage.getItem("startTime")) {
         startButton.style.display = "none";
         introText.style.display = "none";
@@ -128,4 +137,5 @@ document.addEventListener("DOMContentLoaded", function () {
     // **Fix: Attach functions to window so HTML can access them**
     window.startGame = startGame;
     window.checkAnswer = checkAnswer;
+    window.triggerConfetti = triggerConfetti;
 });
