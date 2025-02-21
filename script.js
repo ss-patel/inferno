@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const riddles = [
         { question: "Before the Aztecs, I stood tall.\nAn ancient city, known to all.\nBut you don't need to make a trip,\nYou can find me seated on a table's tip.", answer: "cholula", scoville: 1000 },
-        { question: "The brick road\n+\nPeter: "What's the word?"", answer: "yellowbird", scoville: 15580 },
+        { question: "The brick road\n+\nPeter: _____ is the word?", answer: "yellowbird", scoville: 15580 },
         { question: "🔥1111🔥", answer: "los calientes", scoville: 49000 }
     ];
 
