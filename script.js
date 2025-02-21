@@ -20,9 +20,6 @@ document.addEventListener("DOMContentLoaded", function () {
     let countdownInterval;
     const weekInMilliseconds = 7 * 24 * 60 * 60 * 1000; // 7 days
 
-    if (startButton) startButton.addEventListener("click", startGame);
-    if (submitButton) submitButton.addEventListener("click", checkAnswer);
-
     function startGame() {
         startButton.style.display = "none";
         introText.style.display = "none";
@@ -127,4 +124,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     updateScovilleMeter();
+
+    // **Fix: Attach functions to window so HTML can access them**
+    window.startGame = startGame;
+    window.checkAnswer = checkAnswer;
 });
