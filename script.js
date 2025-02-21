@@ -12,9 +12,10 @@ let countdownInterval;
 const weekInMilliseconds = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
 
 function startGame() {
-    document.getElementById("challenge").style.display = "block";
-    showQuestion();
-    updateScovilleMeter();
+    document.getElementById("start-btn").style.display = "none"; // Hide start button
+    document.getElementById("intro-text").style.display = "none"; // Hide intro text
+    document.getElementById("countdown").style.display = "block"; // Show timer
+    document.getElementById("challenge").style.display = "block"; // Show riddle
 
     // Start timer if it's not already set
     if (!startTime) {
@@ -22,6 +23,8 @@ function startGame() {
         localStorage.setItem("startTime", startTime);
     }
 
+    showQuestion();
+    updateScovilleMeter();
     startCountdown();
 }
 
@@ -108,7 +111,10 @@ function gameOver() {
 document.addEventListener("DOMContentLoaded", () => {
     if (localStorage.getItem("startTime")) {
         startTime = parseInt(localStorage.getItem("startTime"));
+        document.getElementById("countdown").style.display = "block";
         document.getElementById("challenge").style.display = "block";
+        document.getElementById("start-btn").style.display = "none";
+        document.getElementById("intro-text").style.display = "none";
         showQuestion();
         startCountdown();
     }
