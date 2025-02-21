@@ -32,6 +32,7 @@ body {
 
 /* 🔥 Flaming Text */
 .flame-text {
+    font-size: 2em;
     font-weight: bold;
     text-shadow: 2px 2px 10px yellow, 4px 4px 20px red;
 }
